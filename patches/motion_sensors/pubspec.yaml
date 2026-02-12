@@ -1,0 +1,5 @@
+name: motion_sensors
+description: Local no-op shim to satisfy panorama 0.4.1 on Android.
+version: 9.9.9
+environment:
+  sdk: ">=3.0.0 <4.0.0"
