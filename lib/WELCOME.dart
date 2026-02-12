@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smart_finder/USER.dart';
-// Import your User page
 
 class Welcome extends StatelessWidget {
   const Welcome({super.key});
@@ -21,7 +21,6 @@ class Welcome extends StatelessWidget {
               ),
             ),
 
-            // Main content
             Padding(
               padding: const EdgeInsets.symmetric(
                 horizontal: 24.0,
@@ -75,12 +74,20 @@ class Welcome extends StatelessWidget {
                     style: TextStyle(color: Colors.white70, fontSize: 14),
                   ),
                   const SizedBox(height: 24),
+
                   ElevatedButton(
-                    onPressed: () {
-                      // Navigate to the User Page
-                      Navigator.push(
+                    onPressed: () async {
+                      final prefs = await SharedPreferences.getInstance();
+
+                      // ✅ Mark Welcome as seen only when user clicks Get Started
+                      await prefs.setBool('has_seen_welcome', true);
+
+                      if (!context.mounted) return;
+
+                      // ✅ Replace Welcome with User page
+                      Navigator.pushReplacement(
                         context,
-                        MaterialPageRoute(builder: (context) => const User()),
+                        MaterialPageRoute(builder: (_) => const User()),
                       );
                     },
                     style: ElevatedButton.styleFrom(
